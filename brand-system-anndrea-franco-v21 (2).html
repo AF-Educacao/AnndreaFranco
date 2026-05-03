@@ -1,0 +1,3278 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Brand System · v 2.1 — Anndrea Franco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   DESIGN TOKENS · v 2.1 — ANNDREA FRANCO
+   Editorial Executivo · Soberana 75% + Sábia 25%
+   v2.1 · Expansão calibrada do terracota na Família 04
+        · Gradiente Noir→Borgonha→Noir como recurso cerimonial
+   ========================================================= */
+:root{
+  /* Camada 1 — Cor primária de marca */
+  --borgonha:       #5C0A1F;
+  --borgonha-deep:  #3d0614;
+  --borgonha-soft:  #7a1a33;
+
+  /* Camada 2 — Acento estratégico */
+  --terracota:      #B5462A;
+  --terracota-deep: #8f3521;
+
+  /* Camada 3 — Neutros premium */
+  --marfim:         #EFE8DC;
+  --marfim-claro:   #F5EFE3;
+  --areia:          #D9CFC0;
+  --noir:           #1C0712;
+  --noir-soft:      #2a0d1b;
+
+  /* Camada 4 — Tipografia */
+  --tinta:          #151515;
+  --pedra:          #8B7E6E;
+  --tinta-80:       rgba(21,21,21,0.80);
+  --tinta-60:       rgba(21,21,21,0.60);
+  --tinta-40:       rgba(21,21,21,0.40);
+  --tinta-30:       rgba(21,21,21,0.30);
+  --tinta-10:       rgba(21,21,21,0.10);
+
+  /* Linhas */
+  --line:           rgba(92,10,31,0.18);
+  --line-soft:      rgba(92,10,31,0.08);
+
+  /* Camada extra — Acento cerimonial */
+  --bronze:         #9C7A3D;
+  --bronze-deep:    #7a5e2d;
+
+  /* Tipografia — Fraunces + Inter + JetBrains Mono */
+  --font-display:   "Fraunces", "Times New Roman", serif;
+  --font-text:      "Inter", -apple-system, sans-serif;
+  --font-mono:      "JetBrains Mono", "Courier New", monospace;
+
+  /* Escala tipográfica (baseada na hierarquia oficial do documento) */
+  --fs-xs:    0.7rem;    /* 11.2px */
+  --fs-sm:    0.8125rem; /* 13px — legenda */
+  --fs-base:  1rem;      /* 16px — corpo */
+  --fs-md:    1.125rem;  /* 18px — corpo digital */
+  --fs-lg:    1.5rem;    /* 24px — H3/subtítulo */
+  --fs-xl:    1.75rem;   /* 28px — lead */
+  --fs-2xl:   2.5rem;    /* 40px — H2 */
+  --fs-3xl:   3.5rem;    /* 56px — H1 */
+  --fs-4xl:   5rem;      /* 80px */
+  --fs-display: 7.5rem;  /* 120px — capa */
+
+  /* Espaçamento — escala 8pt do documento oficial: 8/16/24/32/48/64/96/128/192 */
+  --s-1:  0.25rem;  /* 4 */
+  --s-2:  0.5rem;   /* 8 */
+  --s-3:  0.75rem;  /* 12 */
+  --s-4:  1rem;     /* 16 */
+  --s-5:  1.25rem;  /* 20 */
+  --s-6:  1.5rem;   /* 24 */
+  --s-8:  2rem;     /* 32 */
+  --s-10: 2.5rem;   /* 40 */
+  --s-12: 3rem;     /* 48 */
+  --s-16: 4rem;     /* 64 */
+  --s-20: 5rem;     /* 80 */
+  --s-24: 6rem;     /* 96 */
+  --s-32: 8rem;     /* 128 */
+  --s-40: 10rem;    /* 160 */
+  --s-48: 12rem;    /* 192 */
+
+  /* Sombras — sempre tingidas no borgonha, nunca cinza */
+  --shadow-sm: 0 2px 8px -4px rgba(92,10,31,0.25);
+  --shadow-md: 0 2px 18px -8px rgba(92,10,31,0.35);
+  --shadow-lg:
+    0 1px 0 rgba(245,239,227,0.15) inset,
+    0 1px 2px rgba(28,7,18,0.18),
+    0 8px 24px -10px rgba(92,10,31,0.35);
+
+  /* Movimento */
+  --ease: cubic-bezier(.2,.7,.3,1);
+  --ease-in: cubic-bezier(.7,0,.2,1);
+}
+
+/* =========================================================
+   RESET + BASE
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family: var(--font-text);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--tinta);
+  background: var(--marfim);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img{max-width:100%;display:block}
+button{font: inherit; cursor:pointer; border:none; background:none; color:inherit}
+::selection{background: var(--borgonha); color: var(--marfim-claro)}
+
+/* =========================================================
+   LAYOUT — GRID EDITORIAL (12 colunas, margens generosas)
+   Regra oficial: 60% respiro, 40% conteúdo
+   ========================================================= */
+.wrap{
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 var(--s-10);
+}
+@media (max-width: 900px){ .wrap{ padding: 0 var(--s-6); } }
+
+section{
+  padding: var(--s-32) 0;
+  border-top: 1px solid var(--line);
+  position:relative;
+}
+section:first-of-type{border-top:none}
+
+/* =========================================================
+   HERO / CAPA — borgonha sólido com grid visível (textura editorial)
+   ========================================================= */
+.hero{
+  min-height: 100vh;
+  background: var(--borgonha);
+  color: var(--marfim-claro);
+  padding: var(--s-8) 0 var(--s-20);
+  position: relative;
+  overflow: hidden;
+  border-top: none;
+  display:flex;
+  flex-direction:column;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(181,70,42,0.12), transparent 60%),
+    radial-gradient(ellipse 50% 30% at 15% 90%, rgba(28,7,18,0.45), transparent 60%);
+  pointer-events:none;
+}
+/* Grid visível como textura editorial — a "capa de revista" */
+.hero::after{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(245,239,227,0.04) 1px, transparent 1px);
+  background-size: calc(100%/12) 100%;
+  pointer-events:none;
+}
+
+.hero-topbar{
+  display:flex; justify-content:space-between; align-items:center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(245,239,227,0.55);
+  position:relative; z-index:2;
+}
+.hero-topbar .live{
+  display:inline-flex; align-items:center; gap: var(--s-2);
+}
+.hero-topbar .live::before{
+  content:""; width:6px; height:6px;
+  background: var(--bronze); border-radius:50%;
+  animation: pulse 2.4s cubic-bezier(.4,0,.6,1) infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1; transform:scale(1)}
+  50%{opacity:0.3; transform:scale(0.7)}
+}
+
+.hero-inner{
+  position:relative; z-index:2;
+  margin-top: auto;
+  padding-top: var(--s-20);
+}
+.hero-label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--bronze);
+  margin-bottom: var(--s-8);
+  display:flex; align-items:center; gap: var(--s-4);
+}
+.hero-label::before{
+  content:""; width: 48px; height: 1px; background: var(--bronze);
+}
+.hero-title{
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+  font-weight: 700;
+  font-size: clamp(3rem, 9vw, var(--fs-display));
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: var(--marfim-claro);
+  max-width: 14ch;
+}
+.hero-title em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.hero-meta{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-8);
+  margin-top: var(--s-16);
+  padding-top: var(--s-6);
+  border-top: 1px solid rgba(245,239,227,0.2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.hero-meta div span{
+  display:block;
+  color: rgba(245,239,227,0.5);
+  margin-bottom: var(--s-2);
+}
+.hero-meta div strong{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  letter-spacing: -0.01em;
+  color: var(--marfim-claro);
+  text-transform: none;
+}
+.hero-meta div strong em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+@media (max-width: 820px){
+  .hero-meta{ grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+  .hero-title{max-width: none}
+}
+
+/* =========================================================
+   SECTION HEADINGS — numeração serial editorial (01, 02...)
+   ========================================================= */
+.section-head{
+  display:grid;
+  grid-template-columns: 1fr 3fr;
+  gap: var(--s-16);
+  margin-bottom: var(--s-20);
+  align-items: start;
+}
+.section-head .meta{
+  position:sticky;
+  top: var(--s-8);
+}
+.section-head .serial{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  color: var(--borgonha);
+  line-height: 1;
+  margin-bottom: var(--s-4);
+  letter-spacing: -0.02em;
+}
+.section-head .serial em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.section-head .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--borgonha);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  max-width: 20ch;
+}
+.section-head .title{
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, var(--fs-3xl));
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--tinta);
+  max-width: 20ch;
+  margin-bottom: var(--s-8);
+}
+.section-head .title em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.section-head .lede{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  line-height: 1.4;
+  color: var(--tinta-60);
+  max-width: 52ch;
+}
+@media (max-width: 900px){
+  .section-head{grid-template-columns: 1fr; gap: var(--s-6)}
+  .section-head .meta{position:static}
+}
+
+/* =========================================================
+   01 — ESSÊNCIA / FILOSOFIA
+   ========================================================= */
+.foundations{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  margin-top: var(--s-8);
+}
+.foundation{
+  padding: var(--s-10);
+  background: var(--marfim);
+  position:relative;
+  min-height: 320px;
+  display:flex;
+  flex-direction:column;
+}
+.foundation h4{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.foundation p{
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.4;
+  color: var(--tinta);
+  flex: 1;
+}
+.foundation.isnt p{
+  color: var(--tinta-60);
+  font-style: italic;
+  font-weight: 400;
+}
+.foundation.is p{ font-weight: 500; }
+.foundation .mark{
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--borgonha);
+}
+.foundation.isnt .mark{color: var(--pedra)}
+@media (max-width: 820px){ .foundations{grid-template-columns:1fr} }
+
+.arquetipo{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-8);
+}
+.arquetipo .arq-meta{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.arquetipo-bar{
+  display:flex;
+  height: 64px;
+  margin-bottom: var(--s-4);
+  grid-column: span 2;
+}
+.arquetipo-bar > div{
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform:uppercase; letter-spacing:0.16em;
+  font-weight: 500;
+}
+.arq-1{ background: var(--borgonha); color: var(--marfim-claro); flex: 75}
+.arq-2{ background: var(--terracota); color: var(--marfim-claro); flex: 25}
+.arquetipo p{
+  grid-column: span 2;
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  max-width: 72ch;
+  line-height: 1.6;
+}
+@media (max-width: 820px){ .arquetipo{grid-template-columns:1fr} }
+
+/* =========================================================
+   02 — PALETA CROMÁTICA
+   ========================================================= */
+.palette{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-4);
+}
+.swatch{
+  aspect-ratio: 3/4;
+  padding: var(--s-6);
+  display:flex; flex-direction:column; justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.swatch .tag{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.75;
+}
+.swatch .name{
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin-top: var(--s-2);
+}
+.swatch .specs{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.8;
+  font-variant-numeric: tabular-nums;
+}
+.swatch .specs div{
+  display:flex; justify-content:space-between; gap: var(--s-4);
+  border-bottom: 1px solid currentColor;
+  padding: var(--s-1) 0;
+  opacity: 0.9;
+}
+.swatch .specs div:last-child{border-bottom:none}
+.swatch .specs span:first-child{ opacity: 0.5 }
+
+.sw-borgonha{ background: var(--borgonha); color: var(--marfim-claro); grid-column: span 2; aspect-ratio: 3/2}
+.sw-terracota{ background: var(--terracota); color: var(--marfim-claro); grid-column: span 2; aspect-ratio: 3/2}
+.sw-noir{ background: var(--noir); color: var(--marfim-claro)}
+.sw-areia{ background: var(--areia); color: var(--tinta)}
+.sw-marfim{ background: var(--marfim); color: var(--borgonha); border: 1px solid var(--line)}
+.sw-bronze{ background: var(--bronze); color: var(--marfim-claro)}
+.sw-gradiente{
+  background: linear-gradient(180deg, var(--noir) 0%, var(--borgonha) 50%, var(--noir) 100%);
+  color: var(--marfim-claro);
+  grid-column: span 4;
+  aspect-ratio: 6/2;
+  position: relative;
+  overflow: hidden;
+}
+.sw-gradiente::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(92,10,31,0.35), transparent 65%);
+  pointer-events: none;
+}
+.sw-gradiente > *{ position: relative; z-index: 1; }
+
+@media (max-width: 820px){
+  .palette{grid-template-columns:1fr 1fr}
+  .sw-borgonha, .sw-terracota, .sw-gradiente{grid-column:span 2}
+}
+
+/* Textos tipográficos (tinta, marfim claro, pedra) */
+.text-colors{
+  margin-top: var(--s-8);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+}
+.text-color{
+  padding: var(--s-6);
+  border: 1px solid var(--line);
+  background: var(--marfim);
+}
+.text-color .tc-swatch{
+  width: 100%; height: 40px;
+  margin-bottom: var(--s-4);
+}
+.text-color .tc-name{
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--tinta);
+  margin-bottom: var(--s-1);
+}
+.text-color .tc-hex{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--pedra);
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px dashed var(--line);
+}
+.text-color .tc-role{
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  line-height: 1.5;
+}
+@media (max-width: 820px){ .text-colors{grid-template-columns:1fr} }
+
+/* Proporção de uso */
+.proportion{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.proportion .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.prop-bar{
+  display:flex;
+  height: 72px;
+  margin-bottom: var(--s-4);
+}
+.prop-bar > div{
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform:uppercase; letter-spacing:0.16em;
+  font-weight: 500;
+}
+.pb-1{ background: var(--marfim); color: var(--borgonha); flex: 32; border: 1px solid var(--line); border-right:none}
+.pb-2{ background: var(--borgonha); color: var(--marfim-claro); flex: 32}
+.pb-3{ background: var(--noir); color: var(--marfim-claro); flex: 9}
+.pb-4{ background: var(--areia); color: var(--tinta); flex: 9}
+.pb-5{ background: var(--terracota); color: var(--marfim-claro); flex: 12}
+.pb-6{ background: var(--bronze); color: var(--marfim-claro); flex: 3}
+.pb-7{
+  background: linear-gradient(180deg, var(--noir) 0%, var(--borgonha) 50%, var(--noir) 100%);
+  color: var(--marfim-claro); flex: 3;
+}
+.proportion p{
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  max-width: 72ch;
+  line-height: 1.6;
+  margin-top: var(--s-4);
+}
+
+/* Combinações obrigatórias / proibidas */
+.combos{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+}
+.combo-col h5{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+.combo-col.do h5{ color: var(--borgonha) }
+.combo-col.dont h5{ color: var(--pedra) }
+.combo-col ul{ list-style:none; display:flex; flex-direction:column; gap: var(--s-4); }
+.combo-col li{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-md);
+  line-height: 1.4;
+  color: var(--tinta);
+  padding-left: var(--s-5);
+  position: relative;
+}
+.combo-col.do li::before{
+  content:"";
+  position:absolute; left:0; top: 12px;
+  width: 12px; height: 1px;
+  background: var(--borgonha);
+}
+.combo-col.dont li{ color: var(--tinta-60); text-decoration: line-through; text-decoration-color: var(--tinta-30); }
+.combo-col.dont li::before{
+  content:"×";
+  position:absolute; left:0; top:0;
+  font-family: var(--font-display);
+  color: var(--pedra);
+  font-style: normal;
+}
+@media (max-width: 820px){ .combos{grid-template-columns:1fr} }
+
+/* =========================================================
+   03 — TIPOGRAFIA
+   ========================================================= */
+.type-row{
+  display:grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--s-10);
+  align-items: start;
+  padding: var(--s-10) 0;
+  border-bottom: 1px solid var(--line);
+}
+.type-row:last-of-type{border-bottom:none}
+.type-meta strong{
+  display:block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+.type-meta .fam{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  color: var(--tinta);
+  line-height: 1;
+  margin-bottom: var(--s-1);
+  letter-spacing: -0.02em;
+}
+.type-meta .weight{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--tinta-60);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--s-4);
+}
+.type-meta .desc{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  line-height: 1.5;
+}
+.type-sample-display{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 7vw, var(--fs-4xl));
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--tinta);
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+  transition: font-variation-settings 0.6s var(--ease);
+}
+.type-sample-display:hover{
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.type-sample-display em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.type-sample-editorial{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, var(--fs-2xl));
+  line-height: 1.3;
+  color: var(--borgonha);
+}
+.type-sample-text{
+  font-family: var(--font-text);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--tinta);
+  max-width: 58ch;
+}
+.type-sample-text strong{ font-weight: 600; color: var(--borgonha)}
+.type-sample-mono{
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  color: var(--pedra);
+  letter-spacing: 0;
+  line-height: 1.7;
+}
+.type-sample-mono strong{
+  color: var(--tinta);
+  font-weight: 500;
+}
+
+/* Escala tipográfica oficial */
+.type-scale{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.type-scale .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-8);
+}
+.scale-row{
+  display:grid;
+  grid-template-columns: 140px 120px 1fr;
+  align-items: baseline;
+  gap: var(--s-8);
+  padding: var(--s-4) 0;
+  border-bottom: 1px dashed var(--line);
+}
+.scale-row .label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--borgonha);
+}
+.scale-row .size{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--tinta-60);
+  font-variant-numeric: tabular-nums;
+}
+.scale-row .preview{
+  font-family: var(--font-display);
+  color: var(--tinta);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.scale-row .preview.italic{
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.scale-row .preview.sans{
+  font-family: var(--font-text);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.scale-row .preview.mono{
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--pedra);
+  letter-spacing: 0;
+}
+@media (max-width: 820px){
+  .type-row{grid-template-columns:1fr}
+  .scale-row{grid-template-columns: 1fr; gap: var(--s-1)}
+}
+
+/* Regras inegociáveis */
+.rules{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.rules .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.rules-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+.rule-item{
+  padding: var(--s-6);
+  background: var(--marfim);
+  font-size: var(--fs-sm);
+  color: var(--tinta-80);
+  line-height: 1.55;
+  display: flex;
+  gap: var(--s-4);
+}
+.rule-item .rule-num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-lg);
+  color: var(--terracota);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.rule-item strong{
+  display: block;
+  color: var(--tinta);
+  font-weight: 600;
+  margin-bottom: var(--s-1);
+}
+@media (max-width: 820px){ .rules-grid{grid-template-columns:1fr} }
+
+/* =========================================================
+   04 — DIREÇÃO CRIATIVA & PRINCÍPIOS
+   ========================================================= */
+.principios-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-top: var(--s-8);
+}
+.principio-card{
+  background: var(--marfim);
+  padding: var(--s-8) var(--s-6);
+  min-height: 300px;
+  display:flex;
+  flex-direction:column;
+}
+.principio-card .num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  color: var(--terracota);
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.principio-card h4{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  line-height: 1.15;
+  color: var(--tinta);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--s-4);
+}
+.principio-card h4 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.principio-card p{
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--tinta-60);
+  flex: 1;
+}
+.principio-card .tag{
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--borgonha);
+}
+@media (max-width: 900px){ .principios-grid{grid-template-columns:1fr} }
+
+/* Palavras-guia */
+.palavras{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-10);
+}
+.palavras h5{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+.palavras .use h5{ color: var(--borgonha) }
+.palavras .banir h5{ color: var(--pedra) }
+.palavras .lista{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.palavra{
+  padding: var(--s-2) var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  border-radius: 2px;
+}
+.use .palavra{
+  background: transparent;
+  color: var(--borgonha);
+  border: 1px solid var(--borgonha);
+}
+.use .palavra em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+}
+.banir .palavra{
+  background: transparent;
+  color: var(--pedra);
+  border: 1px dashed var(--pedra);
+  text-decoration: line-through;
+  text-decoration-color: var(--tinta-30);
+}
+@media (max-width: 820px){ .palavras{grid-template-columns:1fr} }
+
+/* =========================================================
+   05 — COMPONENTES (Blocos e elementos editoriais)
+   ========================================================= */
+
+/* Botão primário — CTA (terracota conforme documento) */
+.btn{
+  display:inline-flex;
+  align-items:stretch;
+  font-family: var(--font-text);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.45s var(--ease);
+  text-decoration: none;
+}
+
+.btn-primary{
+  background: var(--terracota);
+  color: var(--marfim-claro);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary .main{
+  padding: 1rem 1.75rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.45s var(--ease);
+}
+.btn-primary .divider{
+  width: 1px;
+  background: rgba(245,239,227,0.25);
+  transition: background 0.45s var(--ease);
+}
+.btn-primary .side{
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.06);
+  transition: all 0.45s var(--ease);
+  min-width: 52px;
+}
+.btn-primary .arrow{
+  display: inline-block;
+  font-size: 1rem;
+  transition: transform 0.45s var(--ease);
+}
+.btn-primary:hover{
+  box-shadow: 0 8px 28px -8px rgba(181,70,42,0.55);
+}
+.btn-primary:hover .side{
+  background: var(--terracota-deep);
+  min-width: 64px;
+}
+.btn-primary:hover .arrow{ transform: translateX(3px) }
+
+/* Secundário — outline borgonha */
+.btn-secondary{
+  background: transparent;
+  color: var(--borgonha);
+  border: 1px solid var(--borgonha);
+}
+.btn-secondary .main{
+  padding: calc(1rem - 1px) calc(1.75rem - 1px);
+  display: flex;
+  align-items: center;
+  transition: all 0.45s var(--ease);
+}
+.btn-secondary .divider{
+  width: 1px;
+  background: var(--borgonha);
+  transition: background 0.45s var(--ease);
+}
+.btn-secondary .side{
+  padding: calc(1rem - 1px) calc(1.25rem - 1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.45s var(--ease);
+  min-width: 52px;
+}
+.btn-secondary .arrow{
+  display: inline-block;
+  font-size: 1rem;
+  transition: all 0.45s var(--ease);
+}
+.btn-secondary:hover .side{
+  background: var(--borgonha);
+  color: var(--marfim-claro);
+  min-width: 64px;
+}
+.btn-secondary:hover .arrow{ transform: translateX(3px) }
+
+/* Link textual — borgonha com underline terracota */
+.btn-link{
+  display:inline-flex;
+  align-items:center;
+  gap: var(--s-2);
+  padding: var(--s-2) 0;
+  font-family: var(--font-text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--borgonha);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--terracota);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s var(--ease);
+}
+.btn-link::after{
+  content:"→";
+  transition: transform 0.4s var(--ease);
+}
+.btn-link:hover::after{ transform: translateX(4px) }
+
+/* Bloco de citação (filete vertical borgonha 4px, Fraunces Italic) */
+.quote-card{
+  padding: var(--s-6) 0 var(--s-6) var(--s-6);
+  border-left: 4px solid var(--borgonha);
+}
+.quote-card blockquote{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  line-height: 1.3;
+  color: var(--tinta);
+  margin-bottom: var(--s-4);
+  max-width: 44ch;
+}
+.quote-card cite{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--tinta-60);
+  font-style:normal;
+}
+.quote-card cite::before{ content:"— " }
+
+/* Bloco de destaque (filete superior + inferior borgonha) */
+.highlight-block{
+  background: var(--areia);
+  padding: var(--s-8);
+  border-top: 3px solid var(--borgonha);
+  border-bottom: 3px solid var(--borgonha);
+  max-width: 520px;
+}
+.highlight-block h5{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-4);
+}
+.highlight-block p{
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+  color: var(--tinta);
+  font-weight: 500;
+}
+
+/* Bloco-tese (fundo borgonha/noir, centralizado) */
+.tese-block{
+  background: var(--borgonha);
+  color: var(--marfim-claro);
+  padding: var(--s-12);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.tese-block::before{
+  content:"";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(181,70,42,0.18), transparent 65%);
+}
+.tese-block blockquote{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-2xl);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+  margin: 0 auto;
+  position: relative;
+}
+.tese-block blockquote em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+
+/* Box de dados (número grande Fraunces + label mono) */
+.data-box{
+  background: var(--areia);
+  padding: var(--s-8);
+  max-width: 280px;
+  text-align: left;
+  border-left: 3px solid var(--borgonha);
+}
+.data-box .number{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--borgonha);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--s-3);
+}
+.data-box .number em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.data-box .label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--pedra);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--tinta-10);
+}
+
+/* Feature card / card serial */
+.feat-card{
+  background: var(--marfim);
+  padding: var(--s-8) var(--s-6);
+  border: 1px solid var(--line);
+  position: relative;
+  max-width: 360px;
+}
+.feat-card::before{
+  content:"";
+  position:absolute;
+  top: -1px; left: 0;
+  width: 40px; height: 3px;
+  background: var(--terracota);
+  transition: width 0.5s var(--ease);
+}
+.feat-card:hover::before{ width: 96px }
+.feat-card .feat-num{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.feat-card h5{
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--tinta);
+  margin-bottom: var(--s-3);
+  letter-spacing: -0.01em;
+}
+.feat-card h5 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.feat-card p{
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--tinta-60);
+}
+
+/* Selo institucional */
+.selo{
+  width: 220px; height: 220px;
+  position: relative;
+}
+.selo svg{ width:100%; height:100%; }
+.selo .s-circle{
+  fill: none;
+  stroke: var(--bronze);
+  stroke-width: 1;
+}
+.selo .s-name{
+  font-family: "Fraunces", serif;
+  font-size: 28px;
+  font-weight: 700;
+  fill: var(--borgonha);
+  letter-spacing: -0.02em;
+}
+.selo .s-text{
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  fill: var(--borgonha);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.selo .s-dot{ fill: var(--terracota) }
+
+/* Moldura editorial */
+.moldura{
+  padding: var(--s-8);
+  border: 1px solid var(--borgonha);
+  background: var(--marfim);
+  min-height: 240px;
+  position: relative;
+  max-width: 360px;
+}
+.moldura::before{
+  content:"";
+  position: absolute;
+  top: var(--s-2); left: var(--s-2); right: var(--s-2); bottom: var(--s-2);
+  border: 1px solid var(--terracota);
+  pointer-events: none;
+  opacity: 0.4;
+}
+.moldura > *{ position: relative; }
+.moldura .m-label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.moldura .m-title{
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--tinta);
+  letter-spacing: -0.02em;
+}
+.moldura .m-title em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+
+/* Componentes gallery layout */
+.comp-gallery{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-10);
+  margin-top: var(--s-8);
+}
+.comp-block{
+  padding: var(--s-8) 0;
+  border-top: 1px solid var(--line);
+}
+.comp-block .comp-label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+  display:flex; align-items:baseline; gap: var(--s-3);
+}
+.comp-block .comp-label .num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-md);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--terracota);
+}
+.comp-block .comp-desc{
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  line-height: 1.55;
+  margin-top: var(--s-6);
+  max-width: 48ch;
+}
+.comp-stage{
+  display:flex;
+  flex-wrap:wrap;
+  gap: var(--s-4);
+  align-items:center;
+  padding: var(--s-6) 0;
+  min-height: 80px;
+}
+@media (max-width: 900px){
+  .comp-gallery{grid-template-columns:1fr}
+}
+
+/* =========================================================
+   06 — COMPOSIÇÃO & GRIDS
+   ========================================================= */
+.grids-row{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-top: var(--s-8);
+}
+.grid-card{
+  background: var(--marfim);
+  padding: var(--s-6);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+.grid-card .gc-label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+.grid-card .gc-name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  color: var(--tinta);
+  line-height: 1.1;
+  margin-bottom: var(--s-3);
+  letter-spacing: -0.01em;
+}
+.grid-card .gc-name em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.grid-card .gc-spec{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--pedra);
+  margin-bottom: var(--s-4);
+  font-variant-numeric: tabular-nums;
+}
+.grid-card .gc-viz{
+  flex: 1;
+  background: var(--areia);
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+}
+.grid-card .gc-viz::before{
+  content:"";
+  position: absolute; inset: 0;
+  background-image: linear-gradient(to right, rgba(92,10,31,0.18) 1px, transparent 1px);
+  background-size: calc(100%/8) 100%;
+}
+.grid-card .gc-viz.g12::before{ background-size: calc(100%/12) 100%; }
+.grid-card .gc-viz.g6::before{ background-size: calc(100%/6) 100%; }
+.grid-card .gc-viz .content{
+  position: absolute;
+  inset: 20% 15%;
+  background: var(--borgonha);
+  opacity: 0.85;
+}
+@media (max-width: 900px){ .grids-row{grid-template-columns:1fr} }
+
+/* Ritmo cromático (8 slides) */
+.ritmo{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.ritmo .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.ritmo-bar{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  margin-bottom: var(--s-4);
+}
+.ritmo-step{
+  aspect-ratio: 2/3;
+  padding: var(--s-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ritmo-step .s-num{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: -0.02em;
+}
+.rs-borgonha{ background: var(--borgonha); color: var(--marfim-claro); }
+.rs-marfim{ background: var(--marfim); color: var(--borgonha); border: 1px solid var(--line); }
+.rs-noir{ background: var(--noir); color: var(--marfim-claro); }
+.rs-areia{ background: var(--areia); color: var(--tinta); }
+.ritmo p{
+  font-size: var(--fs-sm);
+  color: var(--tinta-60);
+  max-width: 72ch;
+  line-height: 1.6;
+  margin-top: var(--s-4);
+}
+@media (max-width: 820px){
+  .ritmo-bar{ grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Escala de espaçamento */
+.spacing-scale{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+}
+.spacing-scale .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-6);
+}
+.spacing-row{
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-bottom: 1px dashed var(--line);
+}
+.spacing-row .s-val{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--borgonha);
+  font-variant-numeric: tabular-nums;
+}
+.spacing-row .s-viz{
+  height: 12px;
+  background: var(--borgonha);
+}
+
+/* =========================================================
+   07 — FAMÍLIAS DE CONTEÚDO (7 famílias)
+   ========================================================= */
+.familias{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-top: var(--s-8);
+}
+.familia-card{
+  background: var(--marfim);
+  padding: var(--s-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  position: relative;
+  min-height: 280px;
+}
+.familia-card.dark{
+  background: var(--borgonha);
+  color: var(--marfim-claro);
+}
+.familia-card.noir{
+  background: var(--noir);
+  color: var(--marfim-claro);
+}
+.familia-card .f-head{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.familia-card.dark .f-head,
+.familia-card.noir .f-head{
+  border-bottom-color: rgba(245,239,227,0.2);
+}
+.familia-card .f-num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  color: var(--terracota);
+}
+.familia-card .f-label{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  opacity: 0.7;
+}
+.familia-card.dark .f-label,
+.familia-card.noir .f-label{
+  color: var(--marfim-claro);
+}
+.familia-card h4{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-xl);
+  line-height: 1.1;
+  color: var(--tinta);
+  letter-spacing: -0.02em;
+}
+.familia-card.dark h4,
+.familia-card.noir h4{ color: var(--marfim-claro); }
+.familia-card h4 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.familia-card.dark h4 em{ color: var(--terracota); }
+.familia-card.noir h4 em{ color: var(--bronze); }
+.familia-card .f-desc{
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--tinta-60);
+  flex: 1;
+}
+.familia-card.dark .f-desc,
+.familia-card.noir .f-desc{
+  color: rgba(245,239,227,0.75);
+}
+.familia-card .f-meta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--borgonha);
+}
+.familia-card.dark .f-meta,
+.familia-card.noir .f-meta{
+  border-top-color: rgba(245,239,227,0.2);
+  color: var(--bronze);
+}
+.familia-card .f-meta span{
+  padding: var(--s-1) var(--s-3);
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+@media (max-width: 820px){ .familias{grid-template-columns:1fr} }
+
+/* =========================================================
+   08 — APLICAÇÕES POR CANAL
+   ========================================================= */
+.apps{
+  display:grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--s-6);
+  margin-top: var(--s-8);
+}
+@media (max-width: 900px){ .apps{grid-template-columns:1fr} }
+
+/* Capa de PDF comercial / workbook */
+.app-workbook{
+  aspect-ratio: 3/4;
+  background: var(--noir);
+  color: var(--marfim-claro);
+  padding: var(--s-10) var(--s-8);
+  display:flex; flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.app-workbook::before{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(156,122,61,0.18), transparent 65%);
+}
+.app-workbook::after{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(245,239,227,0.04) 1px, transparent 1px);
+  background-size: calc(100%/6) 100%;
+}
+.wb-top{
+  display:flex; justify-content:space-between;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  opacity: 0.6;
+  position:relative;
+}
+.wb-mid{
+  flex:1;
+  display:flex; flex-direction:column; justify-content:center;
+  position:relative;
+}
+.wb-serial{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-2xl);
+  color: var(--bronze);
+  margin-bottom: var(--s-4);
+}
+.wb-kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--bronze);
+  margin-bottom: var(--s-6);
+}
+.wb-title{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  margin-bottom: var(--s-4);
+}
+.wb-title em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bronze);
+  display:block;
+}
+.wb-sub{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-md);
+  opacity: 0.75;
+  max-width: 24ch;
+}
+.wb-bot{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  opacity: 0.6;
+  position:relative;
+  padding-top: var(--s-4);
+  border-top: 1px solid rgba(245,239,227,0.2);
+}
+
+/* Landing / Site hero */
+.app-landing{
+  background: var(--areia);
+  border: 1px solid var(--line);
+  padding: var(--s-4);
+}
+.browser-chrome{
+  display:flex; gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--s-4);
+}
+.browser-chrome span{
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--tinta-30);
+}
+.landing-inner{
+  background: var(--marfim);
+  padding: var(--s-8) var(--s-8) var(--s-6);
+  min-height: 480px;
+  display:flex; flex-direction:column;
+  position:relative;
+}
+.landing-inner::before{
+  content:"";
+  position:absolute; inset: var(--s-8) var(--s-8) var(--s-6) var(--s-8);
+  background-image:
+    linear-gradient(to right, var(--tinta-10) 1px, transparent 1px);
+  background-size: calc(100%/12) 100%;
+  opacity: 0.3;
+  pointer-events:none;
+}
+.landing-inner > *{position:relative}
+.landing-nav{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-bottom: var(--s-6);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.landing-nav .nav-logo{
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: -0.01em;
+  color: var(--borgonha);
+  font-weight: 700;
+  text-transform: none;
+}
+.landing-nav .nav-logo em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.landing-nav ul{ display:flex; gap: var(--s-6); list-style:none; color: var(--tinta-60)}
+.landing-hero{
+  padding: var(--s-12) 0 var(--s-6);
+  flex:1;
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--s-8);
+  align-items: end;
+}
+.landing-hero h2{
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--tinta);
+}
+.landing-hero h2 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.landing-side{
+  font-size: var(--fs-xs);
+  color: var(--tinta-60);
+  border-left: 1px solid var(--line);
+  padding-left: var(--s-4);
+  line-height: 1.6;
+}
+.landing-side strong{
+  display:block;
+  font-family: var(--font-mono);
+  color: var(--borgonha);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: var(--s-2);
+}
+.landing-footer{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top: var(--s-5);
+  margin-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--tinta-60);
+}
+.landing-footer .live{
+  display:inline-flex; align-items:center; gap: var(--s-2);
+  color: var(--borgonha);
+}
+.landing-footer .live::before{
+  content:""; width:5px; height:5px;
+  background: var(--terracota); border-radius:50%;
+  animation: pulse 2.4s cubic-bezier(.4,0,.6,1) infinite;
+}
+@media (max-width: 720px){
+  .landing-hero{grid-template-columns:1fr; gap: var(--s-4)}
+  .landing-nav ul{display:none}
+}
+
+/* Slide de apresentação */
+.app-slide{
+  grid-column: span 2;
+  margin-top: var(--s-6);
+  aspect-ratio: 16/9;
+  background: var(--borgonha);
+  color: var(--marfim-claro);
+  padding: var(--s-10) var(--s-12);
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--s-10);
+  align-items:center;
+  position:relative;
+  overflow: hidden;
+}
+.app-slide::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(245,239,227,0.04) 1px, transparent 1px);
+  background-size: calc(100%/12) 100%;
+  pointer-events:none;
+}
+.app-slide::after{
+  content:"";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 40% at 85% 15%, rgba(181,70,42,0.18), transparent 60%);
+  pointer-events:none;
+}
+.app-slide > *{position:relative}
+.slide-num{
+  position:absolute;
+  top: var(--s-4); right: var(--s-6);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--bronze);
+  letter-spacing: 0.14em;
+}
+.slide-content h3{
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--marfim-claro);
+  margin-bottom: var(--s-4);
+}
+.slide-content h3 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.slide-kicker{
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--bronze);
+  margin-bottom: var(--s-4);
+  display:flex; align-items:center; gap: var(--s-2);
+}
+.slide-kicker::before{
+  content:""; width:24px; height:1px; background: var(--bronze);
+}
+.slide-aside{
+  border-left: 1px solid rgba(245,239,227,0.2);
+  padding-left: var(--s-5);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  color: rgba(245,239,227,0.8);
+  line-height: 1.5;
+}
+@media (max-width: 900px){
+  .app-slide{grid-column:span 1; padding: var(--s-6); aspect-ratio: auto}
+}
+
+/* =========================================================
+   09 — VOZ E CHECKLIST
+   ========================================================= */
+.voice-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-top: var(--s-8);
+}
+.voice{
+  padding: var(--s-8) var(--s-6);
+  background: var(--marfim);
+  min-height: 280px;
+  display:flex;
+  flex-direction:column;
+}
+.voice .v-num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-xl);
+  color: var(--terracota);
+  margin-bottom: var(--s-3);
+}
+.voice h5{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-5);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+.voice .say{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-md);
+  color: var(--tinta);
+  line-height: 1.4;
+  margin-bottom: var(--s-5);
+  flex: 1;
+}
+.voice .nope{
+  font-size: var(--fs-xs);
+  color: var(--tinta-60);
+  text-decoration: line-through;
+  text-decoration-color: var(--tinta-30);
+  line-height: 1.5;
+  padding-top: var(--s-4);
+  border-top: 1px dashed var(--line);
+}
+@media (max-width: 900px){ .voice-grid{grid-template-columns:1fr} }
+
+/* Checklist de aprovação */
+.checklist{
+  margin-top: var(--s-16);
+  padding-top: var(--s-8);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--s-10);
+}
+.checklist .kicker{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--borgonha);
+  margin-bottom: var(--s-4);
+}
+.checklist h3{
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: 0.98;
+  color: var(--tinta);
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+}
+.checklist h3 em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--borgonha);
+}
+.checklist ul{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+.checklist li{
+  font-size: var(--fs-md);
+  color: var(--tinta);
+  padding-left: var(--s-8);
+  position: relative;
+  line-height: 1.5;
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+.checklist li::before{
+  content: "□";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--borgonha);
+}
+@media (max-width: 900px){ .checklist{grid-template-columns:1fr} }
+
+/* =========================================================
+   FOOTER — RESUMO EXECUTIVO
+   ========================================================= */
+footer{
+  background: var(--noir);
+  color: var(--marfim-claro);
+  padding: var(--s-20) 0 var(--s-8);
+  margin-top: var(--s-24);
+  position:relative;
+  overflow:hidden;
+}
+footer::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(to right, rgba(245,239,227,0.04) 1px, transparent 1px);
+  background-size: calc(100%/12) 100%;
+}
+footer::after{
+  content:"";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 20% 100%, rgba(92,10,31,0.5), transparent 65%);
+  pointer-events: none;
+}
+.footer-grid{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  gap: var(--s-8); flex-wrap:wrap;
+  position:relative;
+}
+.footer-mark{
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  line-height: 0.92;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  max-width: 16ch;
+}
+.footer-mark em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracota);
+}
+.footer-meta{
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.55;
+  line-height: 2;
+  text-align: right;
+}
+.footer-meta div:first-child{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-sm);
+  color: var(--bronze);
+  opacity: 1;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: var(--s-2);
+}
+@media (max-width: 720px){ .footer-meta{text-align:left} }
+</style>
+</head>
+<body>
+
+<!-- ========================================================= HERO / CAPA ========================================================= -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-topbar">
+      <span>Brand System · v 2.1</span>
+      <span class="live">Recomendação estratégica vigente</span>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-label">Marca pessoal · Diretoria criativa · MMXXVI</div>
+      <h1 class="hero-title">
+        Anndrea<br>
+        <em>Franco.</em>
+      </h1>
+
+      <div class="hero-meta">
+        <div>
+          <span>Direção criativa</span>
+          <strong>Editorial <em>Executivo</em></strong>
+        </div>
+        <div>
+          <span>Arquétipo dominante</span>
+          <strong>Soberana 75% · <em>Sábia 25%</em></strong>
+        </div>
+        <div>
+          <span>Núcleo cromático</span>
+          <strong>Borgonha · Marfim</strong>
+        </div>
+        <div>
+          <span>Território</span>
+          <strong>Boardroom <em>editorial</em></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ========================================================= 01 — ESSÊNCIA ========================================================= -->
+<section id="essencia">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">01</div>
+        <div class="kicker">Essência & filosofia da marca</div>
+      </div>
+      <div>
+        <h2 class="title">Uma marca construída<br>como capa de <em>revista</em><br>de negócios.</h2>
+        <p class="lede">
+          A identidade não vende inspiração. Vende capacidade demonstrada de produzir resultado
+          em ambientes de alta complexidade. Cada escolha visual traduz repertório executivo real
+          em um sistema de pensamento, método e formação — não em estética.
+        </p>
+      </div>
+    </div>
+
+    <div class="foundations">
+      <div class="foundation is">
+        <h4>A marca é</h4>
+        <p>Cara em todos os sentidos. Indispensável, não opcional. Intelectualmente densa.
+           Comercialmente dura. Feminilidade adulta — cor profunda, tipografia confiante,
+           composição editorial.</p>
+        <div class="mark">Território autorizado</div>
+      </div>
+      <div class="foundation isnt">
+        <h4>A marca não é</h4>
+        <p>Delicada. Suave. Charmosa. Fofa. Leve sem peso. Clean no sentido de vazio. Fresh. Trendy.
+           Rosa, floral, cursiva delicada. Coach feminina. Palestrante motivacional. Influenciadora
+           de produtividade.</p>
+        <div class="mark">Território proibido</div>
+      </div>
+    </div>
+
+    <div class="arquetipo">
+      <div class="arq-meta" style="grid-column: span 2">Arquétipo de marca · proporção</div>
+      <div class="arquetipo-bar">
+        <div class="arq-1">Soberana · 75%</div>
+        <div class="arq-2">Sábia · 25%</div>
+      </div>
+      <p style="grid-column: span 2">
+        A Soberana define o tom — controle, padrão, hierarquia, recusa ao amadorismo, comando.
+        A Sábia entra como modulação — pesquisa, método, didática, framework, repertório acadêmico.
+        A Sábia impede a Soberana de virar arrogância; a Soberana impede a Sábia de virar palestrante
+        motivacional. O que não entra: Cuidadora (suavização), Inocente (infantilização), Heroína
+        romântica (narrativa de superação acima da entrega técnica).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 02 — PALETA CROMÁTICA ========================================================= -->
+<section id="paleta">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">02</div>
+        <div class="kicker">Sistema cromático · 4 camadas</div>
+      </div>
+      <div>
+        <h2 class="title">Uma cor dominante,<br>um acento <em>expandido,</em><br>uma família inteira.</h2>
+        <p class="lede">
+          Borgonha é a cor-assinatura — aparece em 30 a 40% das peças do feed. Terracota é acento
+          estratégico expandido (10–15%), com permissão para blocos inteiros exclusivamente na
+          Família 04 — o espaço humano e energético da marca. Os neutros premium sustentam a
+          sensação de papel premium, galeria, livro de arte. Taupe foi eliminado.
+          <br><br>
+          Nesta versão 2.1, entra também o <strong>Gradiente Profundo</strong> (Noir→Borgonha→Noir)
+          como recurso cerimonial restrito — &lt;3% das peças — para momentos onde o borgonha
+          sólido já não entrega profundidade suficiente.
+        </p>
+      </div>
+    </div>
+
+    <div class="palette">
+      <div class="swatch sw-borgonha">
+        <div>
+          <div class="tag">Camada 01 · Primária</div>
+          <div class="name">Borgonha Profundo</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#5C0A1F</span></div>
+          <div><span>RGB</span><span>92 · 10 · 31</span></div>
+          <div><span>Uso</span><span>30–40%</span></div>
+          <div><span>Papel</span><span>Cor-assinatura</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-terracota">
+        <div>
+          <div class="tag">Camada 02 · Acento expandido</div>
+          <div class="name">Terracota Queimado</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#B5462A</span></div>
+          <div><span>RGB</span><span>181 · 70 · 42</span></div>
+          <div><span>Uso</span><span>10–15%</span></div>
+          <div><span>Papel</span><span>Calor · Família 04</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-marfim">
+        <div>
+          <div class="tag">Camada 03 · Neutro</div>
+          <div class="name">Marfim</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#EFE8DC</span></div>
+          <div><span>Uso</span><span>30–40%</span></div>
+          <div><span>Papel</span><span>Respiro</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-noir">
+        <div>
+          <div class="tag">Camada 03 · Neutro</div>
+          <div class="name">Tinta Noir</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#1C0712</span></div>
+          <div><span>Uso</span><span>5–10%</span></div>
+          <div><span>Papel</span><span>Gravitas</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-areia">
+        <div>
+          <div class="tag">Camada 03 · Neutro</div>
+          <div class="name">Areia Quente</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#D9CFC0</span></div>
+          <div><span>Uso</span><span>5–10%</span></div>
+          <div><span>Papel</span><span>Variação</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-bronze">
+        <div>
+          <div class="tag">Camada extra · Cerimonial</div>
+          <div class="name">Bronze Antigo</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#9C7A3D</span></div>
+          <div><span>Uso</span><span>&lt; 2%</span></div>
+          <div><span>Papel</span><span>Institucional</span></div>
+        </div>
+      </div>
+
+      <div class="swatch sw-gradiente">
+        <div>
+          <div class="tag">Recurso cerimonial · v2.1</div>
+          <div class="name">Gradiente Profundo</div>
+        </div>
+        <div class="specs">
+          <div><span>HEX</span><span>#1C0712 → #5C0A1F → #1C0712</span></div>
+          <div><span>Direção</span><span>Vertical · radial</span></div>
+          <div><span>Uso</span><span>&lt; 3%</span></div>
+          <div><span>Papel</span><span>Máxima sofisticação</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cores de tipografia (camada 04) -->
+    <div class="text-colors" style="margin-top: var(--s-16); padding-top: var(--s-8); border-top: 1px solid var(--line);">
+      <div style="grid-column: span 3;">
+        <div style="font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.22em; color: var(--borgonha); margin-bottom: var(--s-6);">
+          Camada 04 · Tipografia (uso transversal, fora da proporção)
+        </div>
+      </div>
+      <div class="text-color">
+        <div class="tc-swatch" style="background: var(--tinta)"></div>
+        <div class="tc-name">Tinta Densa</div>
+        <div class="tc-hex">#151515</div>
+        <div class="tc-role">Texto sobre fundos claros. Mais profundo que cinza, mais suave que preto puro.</div>
+      </div>
+      <div class="text-color">
+        <div class="tc-swatch" style="background: var(--marfim-claro); border: 1px solid var(--line)"></div>
+        <div class="tc-name">Marfim Claro</div>
+        <div class="tc-hex">#F5EFE3</div>
+        <div class="tc-role">Texto sobre fundos escuros (borgonha, noir). Máxima legibilidade invertida.</div>
+      </div>
+      <div class="text-color">
+        <div class="tc-swatch" style="background: var(--pedra)"></div>
+        <div class="tc-name">Pedra</div>
+        <div class="tc-hex">#8B7E6E</div>
+        <div class="tc-role">Texto secundário, legendas, metadata. Único cinza-quente do sistema.</div>
+      </div>
+    </div>
+
+    <!-- Proporção de uso -->
+    <div class="proportion">
+      <div class="kicker">Proporção recomendada · estrutura de 4 camadas + recurso cerimonial</div>
+      <div class="prop-bar">
+        <div class="pb-1">32 · Marfim</div>
+        <div class="pb-2">32 · Borgonha</div>
+        <div class="pb-5">12 · Terracota</div>
+        <div class="pb-3">9 · Noir</div>
+        <div class="pb-4">9 · Areia</div>
+        <div class="pb-6">3 · Bronze</div>
+        <div class="pb-7">3 · Gradiente</div>
+      </div>
+      <p>
+        Borgonha e Marfim sustentam 64% da identidade. Terracota cresce para 10–15% por causa
+        da expansão calibrada na Família 04 (Bastidor/Founder) — única família onde blocos
+        inteiros em terracota são explicitamente permitidos. Tinta Noir e Areia Quente entram
+        como variações estratégicas — noir para gravitas máxima, areia para evitar fadiga em
+        sequências longas. Bronze continua artilharia cerimonial (&lt;2%). O novo Gradiente
+        Profundo Noir→Borgonha→Noir opera &lt;3% das peças — exclusivo para momentos de altíssimo
+        nível onde o borgonha sólido já não entrega profundidade suficiente.
+      </p>
+    </div>
+
+    <!-- Combinações -->
+    <div class="combos">
+      <div class="combo-col do">
+        <h5>Combinações prioritárias</h5>
+        <ul>
+          <li>Borgonha + Marfim Claro · a combinação assinatura</li>
+          <li>Marfim + Borgonha em texto · inversão para leitura densa</li>
+          <li>Tinta Noir + Marfim Claro + Bronze · gravitas institucional</li>
+          <li>Gradiente Profundo + Marfim Claro · peças cerimoniais de altíssimo nível (&lt;3%)</li>
+          <li>Marfim + Tinta Densa + Terracota como detalhe · padrão de carrossel</li>
+          <li>Terracota + Marfim Claro · exclusiva Família 04 · blocos inteiros permitidos</li>
+          <li>Areia Quente + Tinta Densa · slides intermediários em sequências longas</li>
+        </ul>
+      </div>
+      <div class="combo-col dont">
+        <h5>Combinações proibidas</h5>
+        <ul>
+          <li>Terracota como fundo fora da Família 04 · institucional, B2B ou tese</li>
+          <li>Borgonha + Terracota em paridade visual fora da Família 04</li>
+          <li>Borgonha + Tinta Noir como blocos separados</li>
+          <li>Gradiente como substituto cotidiano do borgonha sólido</li>
+          <li>Bronze usado como texto</li>
+          <li>Marfim + Areia Quente adjacentes sem intercalar</li>
+          <li>Qualquer cor da paleta + cinza frio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 03 — TIPOGRAFIA ========================================================= -->
+<section id="tipografia">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">03</div>
+        <div class="kicker">Sistema tipográfico</div>
+      </div>
+      <div>
+        <h2 class="title">Duas famílias de<br>trabalho, uma voz<br><em>autoral.</em></h2>
+        <p class="lede">
+          Fraunces para manchetes e capas. Inter para corpo e UI. JetBrains Mono para metadata
+          técnica. Times New Roman e Poppins foram eliminados — ambas indistinguíveis em meio
+          à massa de marcas brasileiras. Toda marca pessoal premium tem uma assinatura tipográfica
+          reconhecível.
+        </p>
+      </div>
+    </div>
+
+    <!-- Fraunces · Display -->
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>Display · 01</strong>
+        <div class="fam">Fraunces</div>
+        <div class="weight">400–700 · Italic</div>
+        <div class="desc">
+          Para manchetes, capas, frases-tese. Serif moderno com personalidade marcante — controle
+          fino de eixo, ar editorial de NYT Magazine e Substack. Passe o mouse para ver a transição
+          variable.
+        </div>
+      </div>
+      <div class="type-sample-display">
+        Capacidade<br>
+        demonstrada <em>em sala.</em>
+      </div>
+    </div>
+
+    <!-- Inter · Texto -->
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>Texto · 02</strong>
+        <div class="fam" style="font-family: var(--font-text); font-weight: 700">Inter</div>
+        <div class="weight">400 · 500 · 600 · 700</div>
+        <div class="desc">
+          Desenhada para legibilidade em tela. É a fonte do Figma, Substack, GitHub — sinaliza
+          sistema digital sério. Substitui Poppins com vantagem técnica em todos os critérios.
+        </div>
+      </div>
+      <div class="type-sample-text">
+        Anndrea Franco é uma operadora sênior que migrou da execução corporativa para a construção
+        de uma empresa própria. <strong>R$ 300M em receita. R$ 2B em valuation. 2.500 alunos.</strong>
+        Multinacionais e setor público. A marca traduz repertório executivo real em um sistema
+        de pensamento, método e formação.
+      </div>
+    </div>
+
+    <!-- JetBrains Mono · Técnica -->
+    <div class="type-row">
+      <div class="type-meta">
+        <strong>Mono · 03 · opcional</strong>
+        <div class="fam" style="font-family: var(--font-mono); font-size: var(--fs-lg); font-weight: 500">JetBrains Mono</div>
+        <div class="weight">400 · 500</div>
+        <div class="desc">
+          Uso muito restrito. Numeração, labels, datas. Sempre pequeno (10–12pt), sempre em Pedra
+          ou Tinta Densa. Cria contraste editorial discreto e sinaliza camada técnica sem ruído.
+        </div>
+      </div>
+      <div class="type-sample-mono">
+        <strong>CASE 01 · NOV 2026</strong><br>
+        Ensaio · Tese · 02/12<br>
+        Programa de advisory · edição IV
+      </div>
+    </div>
+
+    <!-- Escala tipográfica oficial -->
+    <div class="type-scale">
+      <div class="kicker">Hierarquia tipográfica oficial</div>
+
+      <div class="scale-row">
+        <div class="label">H1 · Hero</div>
+        <div class="size">64–96 / tracking -2%</div>
+        <div class="preview" style="font-size: 3rem">Autoridade editorial</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">H2 · Manchete</div>
+        <div class="size">36–48 / tracking -1%</div>
+        <div class="preview" style="font-size: 2.25rem">Controle do território</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">H3 · Subtítulo</div>
+        <div class="size">20–24 / tracking 0</div>
+        <div class="preview sans" style="font-size: 1.375rem; color: var(--tinta); font-weight: 500;">Abertura de bloco editorial</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">Lead · Olho</div>
+        <div class="size">22–28 / italic</div>
+        <div class="preview italic" style="font-size: 1.5rem">Frase de abertura editorial em itálico.</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">Corpo</div>
+        <div class="size">16–18 / LH 1.55</div>
+        <div class="preview sans" style="font-size: 1rem; color: var(--tinta)">Corpo padrão Inter Regular de leitura confortável.</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">Legenda</div>
+        <div class="size">13–14 / +5% UPPER</div>
+        <div class="preview sans" style="font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pedra); font-weight: 500;">Metadata · legenda de apoio</div>
+      </div>
+      <div class="scale-row">
+        <div class="label">Mono · numeração</div>
+        <div class="size">10–12 / tabular</div>
+        <div class="preview mono" style="font-size: 0.75rem">02/12 · NOV 2026 · CASE 01</div>
+      </div>
+    </div>
+
+    <!-- Regras inegociáveis -->
+    <div class="rules">
+      <div class="kicker">Regras inegociáveis · o sistema endurecido</div>
+      <div class="rules-grid">
+        <div class="rule-item">
+          <div class="rule-num">i.</div>
+          <div><strong>Duas famílias, nunca três.</strong>Fraunces + Inter é o padrão. Mono aparece apenas em peças institucionais com camada técnica, como terceira.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">ii.</div>
+          <div><strong>Itálico só em Fraunces.</strong>Inter italic é fraca. Prefira destaque por peso ou cor. Eliminada a regra amadora de "primeira letra sem itálico, restante em itálico".</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">iii.</div>
+          <div><strong>Fraunces nunca em corpo.</strong>Fica pesada e cansativa. Existe para grandes corpos visuais e manchetes, não para parágrafos longos.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">iv.</div>
+          <div><strong>Inter nunca em manchete de impacto.</strong>Fica fria, comunica "app de tecnologia", não "editorial premium". Manchete é território de Fraunces.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">v.</div>
+          <div><strong>Tracking negativo só em Fraunces acima de 48pt.</strong>Em corpo, tracking sempre 0. Nunca use pesos extremos (Light 200, Black 900).</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">vi.</div>
+          <div><strong>Centralizar só em manchetes curtas.</strong>Até 5 palavras ou capas cerimoniais. Texto longo sempre alinhado à esquerda. Justificado, nunca em digital.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 04 — DIREÇÃO CRIATIVA ========================================================= -->
+<section id="direcao">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">04</div>
+        <div class="kicker">Direção criativa central</div>
+      </div>
+      <div>
+        <h2 class="title">Editorial<br><em>Executivo.</em></h2>
+        <p class="lede">
+          Uma marca pessoal construída como capa de revista de negócios — autoral, disciplinada,
+          com o peso de uma publicação que se compra, não que se rola no feed. Editorial Executivo
+          é o ponto de equilíbrio entre o mundo corporativo sênior, o pensamento autoral e a
+          presença feminina como protagonista visual.
+        </p>
+      </div>
+    </div>
+
+    <div class="principios-grid">
+      <div class="principio-card">
+        <div class="num">i.</div>
+        <h4>Confiança <em>imediata</em></h4>
+        <p>"Esta pessoa sabe do que está falando" antes de ler uma palavra. A direção visual
+           opera no nível do reconhecimento sensorial — não da explicação.</p>
+        <div class="tag">Segundo 1 · cor</div>
+      </div>
+      <div class="principio-card">
+        <div class="num">ii.</div>
+        <h4>Curiosidade <em>qualificada</em></h4>
+        <p>Quem para no post é exatamente o público certo. Não tráfego diluído, não engajamento
+           genérico. A marca filtra na entrada.</p>
+        <div class="tag">Segundo 2 · hierarquia</div>
+      </div>
+      <div class="principio-card">
+        <div class="num">iii.</div>
+        <h4>Sensação de <em>custo</em></h4>
+        <p>Parece caro. Quem contrata, contrata sem regatear. Marcas premium não negociam preço —
+           ancoram desejo antes do orçamento.</p>
+        <div class="tag">Segundo 3 · pessoa</div>
+      </div>
+      <div class="principio-card">
+        <div class="num">iv.</div>
+        <h4>Permanência <em>editorial</em></h4>
+        <p>Não parece feed-de-passagem. Parece arquivo, repertório, biblioteca. Cada peça pode
+           viver isolada como página de revista séria.</p>
+        <div class="tag">Veículo, não criadora</div>
+      </div>
+      <div class="principio-card">
+        <div class="num">v.</div>
+        <h4>Comando <em>suave</em></h4>
+        <p>Autoridade sem agressividade. Hierarquia sem hostilidade. Densidade sem rigidez.
+           Feminino sem suavização.</p>
+        <div class="tag">Soberana modulada</div>
+      </div>
+      <div class="principio-card">
+        <div class="num">vi.</div>
+        <h4>Respiro como <em>ativo</em></h4>
+        <p>Quanto mais cara é a marca, mais espaço vazio ela compra. Marca amadora enche o canvas
+           para dar valor. Marca premium sabe que o vazio é o valor.</p>
+        <div class="tag">60% respiro · 40% conteúdo</div>
+      </div>
+    </div>
+
+    <!-- Palavras-guia -->
+    <div class="palavras">
+      <div class="use">
+        <h5>Palavras de validação</h5>
+        <div class="lista">
+          <span class="palavra">editorial</span>
+          <span class="palavra">executivo</span>
+          <span class="palavra">denso</span>
+          <span class="palavra">ancorado</span>
+          <span class="palavra">sóbrio com calor</span>
+          <span class="palavra">disciplinado</span>
+          <span class="palavra">autoral</span>
+          <span class="palavra">permanente</span>
+          <span class="palavra">sênior</span>
+          <span class="palavra"><em>íntimo-sem-ser-pessoal</em></span>
+        </div>
+      </div>
+      <div class="banir">
+        <h5>Palavras a banir</h5>
+        <div class="lista">
+          <span class="palavra">delicado</span>
+          <span class="palavra">suave</span>
+          <span class="palavra">charmoso</span>
+          <span class="palavra">fofo</span>
+          <span class="palavra">leve</span>
+          <span class="palavra">clean</span>
+          <span class="palavra">fresh</span>
+          <span class="palavra">trendy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 05 — COMPONENTES ========================================================= -->
+<section id="componentes">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">05</div>
+        <div class="kicker">Componentes editoriais</div>
+      </div>
+      <div>
+        <h2 class="title">Blocos visuais<br>que constroem<br><em>reconhecimento.</em></h2>
+        <p class="lede">
+          Cada componente abaixo aparece repetidamente e constrói a memória da marca ao longo
+          do tempo. Variação aqui dilui — disciplina aqui constrói patrimônio. Filete vertical
+          de 4px no borgonha, moldura editorial de 1px, selo institucional, blocos-tese.
+        </p>
+      </div>
+    </div>
+
+    <div class="comp-gallery">
+
+      <!-- Botão primário -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">i.</span>
+          CTA primário · terracota
+        </div>
+        <div class="comp-stage">
+          <button class="btn btn-primary">
+            <span class="main">Entrar na mentoria</span>
+            <span class="divider"></span>
+            <span class="side"><span class="arrow">→</span></span>
+          </button>
+        </div>
+        <p class="comp-desc">
+          Fundo terracota, texto marfim claro em Inter Semibold, padding 16×32, border-radius
+          sutil de 4px. O compartimento lateral expande no hover. Para conversão de alto
+          impacto: "Entrar na mentoria", "Falar no WhatsApp".
+        </p>
+      </div>
+
+      <!-- Botão secundário -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">ii.</span>
+          CTA secundário · outline borgonha
+        </div>
+        <div class="comp-stage">
+          <button class="btn btn-secondary">
+            <span class="main">Ver programa</span>
+            <span class="divider"></span>
+            <span class="side"><span class="arrow">→</span></span>
+          </button>
+        </div>
+        <p class="comp-desc">
+          Fundo transparente, borda 1px borgonha, texto borgonha em Inter Medium. No hover, o
+          compartimento lateral se preenche em borgonha. Para ações secundárias ao lado do primário.
+        </p>
+      </div>
+
+      <!-- Link textual -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">iii.</span>
+          Link textual · borgonha + underline terracota
+        </div>
+        <div class="comp-stage">
+          <button class="btn-link">Baixar o whitepaper executivo</button>
+        </div>
+        <p class="comp-desc">
+          Texto borgonha com underline 1px terracota fixo (não só hover). Para downloads, links
+          auxiliares, navegação editorial. Underline fixo garante legibilidade — nunca depende de hover.
+        </p>
+      </div>
+
+      <!-- Bloco de citação -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">iv.</span>
+          Bloco de citação · filete vertical 4px
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="quote-card">
+            <blockquote>
+              A marca não vende inspiração. Vende capacidade demonstrada de produzir resultado em
+              ambientes de alta complexidade.
+            </blockquote>
+            <cite>Síntese da essência</cite>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Filete vertical de 4px em borgonha à esquerda. Texto em Fraunces Italic 22–28pt em
+          Tinta Densa. Sem fundo colorido — apenas o filete sustenta a estrutura.
+        </p>
+      </div>
+
+      <!-- Bloco de destaque -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">v.</span>
+          Bloco de destaque · filete superior + inferior
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="highlight-block">
+            <h5>Premissa mandatória</h5>
+            <p>Burgundy não é "detalhe de autoridade". É o sinal visual mais reconhecível da marca.</p>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Fundo Areia Quente com filete 3px borgonha em cima e embaixo, padding 32px. Para chamar
+          atenção sem gritar — premissa, regra, destaque pontual.
+        </p>
+      </div>
+
+      <!-- Box de dados -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">vi.</span>
+          Box de dados · número grande Fraunces
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="data-box">
+            <div class="number">R$ 300<em>M</em></div>
+            <div class="label">Receita gerida · ambientes corporativos</div>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Fundo areia quente com filete vertical borgonha. Número em Fraunces Bold 60–96pt, label
+          em Mono uppercase. Para estatísticas-chave: R$ 300M, 2.500 alunos, R$ 2B em valuation.
+        </p>
+      </div>
+
+      <!-- Feature card -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">vii.</span>
+          Card serial · régua superior expansiva
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="feat-card">
+            <div class="feat-num">CASE 01 · NOV 2026</div>
+            <h5>Repertório executivo<br>como <em>método</em></h5>
+            <p>A marca opera no território raro entre estratégia executiva sênior, IA aplicada ao
+               trabalho e formação de liderança feminina C-level.</p>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Régua superior 3px terracota que expande de 40px para 96px no hover. Numeração em mono.
+          Manchete em Fraunces, corpo em Inter — o cartão padrão do sistema.
+        </p>
+      </div>
+
+      <!-- Selo institucional -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">viii.</span>
+          Selo institucional · circular bronze
+        </div>
+        <div class="comp-stage">
+          <div class="selo">
+            <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <path id="af-top" d="M 30,110 A 80,80 0 0 1 190,110" fill="none"/>
+                <path id="af-bot" d="M 30,110 A 80,80 0 0 0 190,110" fill="none"/>
+              </defs>
+              <circle class="s-circle" cx="110" cy="110" r="105"/>
+              <circle class="s-circle" cx="110" cy="110" r="96" stroke-dasharray="1 4"/>
+
+              <text class="s-text">
+                <textPath href="#af-top" startOffset="50%" text-anchor="middle">
+                  ANNDREA · FRANCO
+                </textPath>
+              </text>
+              <text class="s-text">
+                <textPath href="#af-bot" startOffset="50%" text-anchor="middle">
+                  ESTRATÉGIA · IA · LIDERANÇA · MMXXVI
+                </textPath>
+              </text>
+
+              <text x="110" y="120" text-anchor="middle" class="s-name">AF</text>
+
+              <circle class="s-dot" cx="110" cy="42" r="2.5"/>
+              <circle class="s-dot" cx="110" cy="178" r="2.5"/>
+              <circle class="s-dot" cx="42" cy="110" r="2.5"/>
+              <circle class="s-dot" cx="178" cy="110" r="2.5"/>
+            </svg>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Círculo em borgonha ou bronze, monograma "AF" em Fraunces no centro, texto circular
+          em mono uppercase. Para certificados, capas de programa premium, materiais cerimoniais.
+        </p>
+      </div>
+
+      <!-- Moldura editorial -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">ix.</span>
+          Moldura editorial · borda dupla
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="moldura">
+            <div class="m-label">Tese · 04</div>
+            <div class="m-title">A primeira<br><em>operadora.</em></div>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Filete 1px borgonha + filete interno 1px terracota com offset de 8px. Aplicada em capas
+          de carrossel, slides de abertura/fechamento, capas de PDF. Cria "borda editorial" que
+          sinaliza "isso é uma peça da marca" mesmo sem logotipo.
+        </p>
+      </div>
+
+      <!-- Bloco-tese -->
+      <div class="comp-block">
+        <div class="comp-label">
+          <span class="num">x.</span>
+          Bloco-tese · manifesto centralizado
+        </div>
+        <div class="comp-stage" style="display:block">
+          <div class="tese-block">
+            <blockquote>
+              Veículos têm assinantes.<br>
+              Marcas pessoais <em>têm seguidores.</em>
+            </blockquote>
+          </div>
+        </div>
+        <p class="comp-desc">
+          Fundo borgonha ou noir, padding 48px, texto centralizado em Fraunces Bold 32–48pt em
+          marfim claro. Para frases manifesto que precisam de peso máximo. Quebra de tese em
+          carrosséis longos.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 06 — COMPOSIÇÃO & GRIDS ========================================================= -->
+<section id="composicao">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">06</div>
+        <div class="kicker">Composição, grids & ritmo</div>
+      </div>
+      <div>
+        <h2 class="title">Composição é onde a<br>marca premium se<br><em>diferencia.</em></h2>
+        <p class="lede">
+          Espaço, hierarquia e ritmo dizem mais sobre custo do que cor ou fonte. Cada canal tem
+          grid próprio, calibrado para o seu objetivo. A regra 60/40 — 60% respiro, 40% conteúdo —
+          atravessa o sistema inteiro. Carrosséis intermediários podem chegar a 50/50; capa e
+          fechamento, sempre 60/40 ou mais arejado.
+        </p>
+      </div>
+    </div>
+
+    <!-- Grids por canal -->
+    <div class="grids-row">
+      <div class="grid-card">
+        <div class="gc-label">Grid · 01</div>
+        <div class="gc-name">Instagram <em>Carrossel</em></div>
+        <div class="gc-spec">1080×1350 · 8 colunas · gutter 24px</div>
+        <div class="gc-viz">
+          <div class="content"></div>
+        </div>
+      </div>
+      <div class="grid-card">
+        <div class="gc-label">Grid · 02</div>
+        <div class="gc-name">Site &<br><em>Landing page</em></div>
+        <div class="gc-spec">1440px · 12 colunas · gutter 32px</div>
+        <div class="gc-viz g12">
+          <div class="content"></div>
+        </div>
+      </div>
+      <div class="grid-card">
+        <div class="gc-label">Grid · 03</div>
+        <div class="gc-name">Apresentação<br><em>palestra</em></div>
+        <div class="gc-spec">1920×1080 · 16:9 · 12 col · gutter 40</div>
+        <div class="gc-viz g12">
+          <div class="content"></div>
+        </div>
+      </div>
+      <div class="grid-card">
+        <div class="gc-label">Grid · 04</div>
+        <div class="gc-name">Reels &<br><em>Stories</em></div>
+        <div class="gc-spec">1080×1920 · 9:16 · safe area 250/350</div>
+        <div class="gc-viz">
+          <div class="content"></div>
+        </div>
+      </div>
+      <div class="grid-card">
+        <div class="gc-label">Grid · 05</div>
+        <div class="gc-name">PDF<br><em>comercial</em></div>
+        <div class="gc-spec">A4 · 6 colunas · margem 25mm</div>
+        <div class="gc-viz g6">
+          <div class="content"></div>
+        </div>
+      </div>
+      <div class="grid-card">
+        <div class="gc-label">Grid · 06</div>
+        <div class="gc-name">Post<br><em>estático</em></div>
+        <div class="gc-spec">1080×1350 · hierarquia única · 60% respiro</div>
+        <div class="gc-viz">
+          <div class="content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ritmo cromático -->
+    <div class="ritmo">
+      <div class="kicker">Ritmo cromático · carrossel de 8 slides</div>
+      <div class="ritmo-bar">
+        <div class="ritmo-step rs-borgonha"><div class="s-num">01</div><div>Capa</div></div>
+        <div class="ritmo-step rs-marfim"><div class="s-num">02</div><div>Conteúdo</div></div>
+        <div class="ritmo-step rs-marfim"><div class="s-num">03</div><div>Conteúdo</div></div>
+        <div class="ritmo-step rs-marfim"><div class="s-num">04</div><div>Conteúdo</div></div>
+        <div class="ritmo-step rs-noir"><div class="s-num">05</div><div>Tese</div></div>
+        <div class="ritmo-step rs-marfim"><div class="s-num">06</div><div>Conteúdo</div></div>
+        <div class="ritmo-step rs-areia"><div class="s-num">07</div><div>Variação</div></div>
+        <div class="ritmo-step rs-borgonha"><div class="s-num">08</div><div>CTA</div></div>
+      </div>
+      <p>
+        Capa borgonha → conteúdo marfim → quebra de tese em noir → continuação marfim/areia →
+        fechamento borgonha com CTA terracota. Esse pulso (escuro → claro → escuro → claro)
+        cria a sensação de revista folheada, não de feed deslizado.
+      </p>
+    </div>
+
+    <!-- Escala de espaçamento -->
+    <div class="spacing-scale">
+      <div class="kicker">Escala de espaçamento · múltiplos de 8px</div>
+      <div class="spacing-row"><div class="s-val">08</div><div class="s-viz" style="width:8px"></div></div>
+      <div class="spacing-row"><div class="s-val">16</div><div class="s-viz" style="width:16px"></div></div>
+      <div class="spacing-row"><div class="s-val">24</div><div class="s-viz" style="width:24px"></div></div>
+      <div class="spacing-row"><div class="s-val">32</div><div class="s-viz" style="width:32px"></div></div>
+      <div class="spacing-row"><div class="s-val">48</div><div class="s-viz" style="width:48px"></div></div>
+      <div class="spacing-row"><div class="s-val">64</div><div class="s-viz" style="width:64px"></div></div>
+      <div class="spacing-row"><div class="s-val">96</div><div class="s-viz" style="width:96px"></div></div>
+      <div class="spacing-row"><div class="s-val">128</div><div class="s-viz" style="width:128px"></div></div>
+      <div class="spacing-row"><div class="s-val">192</div><div class="s-viz" style="width:192px"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 07 — FAMÍLIAS DE CONTEÚDO ========================================================= -->
+<section id="familias">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">07</div>
+        <div class="kicker">Sete famílias de conteúdo</div>
+      </div>
+      <div>
+        <h2 class="title">Cada família tem<br>assinatura visual<br><em>reconhecível.</em></h2>
+        <p class="lede">
+          Toda peça produzida pertence a uma das sete famílias abaixo. Cada uma tem paleta dominante,
+          tipografia dominante e estrutura sugerida — o que facilita produção (designer sabe a fórmula),
+          curadoria (você reconhece o que está faltando no feed) e reconhecimento (público aprende
+          o código).
+        </p>
+      </div>
+    </div>
+
+    <div class="familias">
+
+      <div class="familia-card dark">
+        <div class="f-head">
+          <div class="f-num">01</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Autoridade</h4>
+        <div class="f-desc">Editorial-tese. Manchete grande, frase única, peso máximo. Demonstrar
+          capacidade técnica e densidade intelectual. Construir percepção de "esta pessoa é referência".</div>
+        <div class="f-meta">
+          <span>Borgonha + Marfim</span>
+          <span>Fraunces Bold</span>
+        </div>
+      </div>
+
+      <div class="familia-card">
+        <div class="f-head">
+          <div class="f-num">02</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Educacional</h4>
+        <div class="f-desc">Didática editorial. Estrutura clara, hierarquia consistente, leitura
+          confortável. Entrega valor concreto e constrói biblioteca de conteúdo evergreen.</div>
+        <div class="f-meta">
+          <span>Marfim + Tinta Densa</span>
+          <span>Fraunces + Inter</span>
+        </div>
+      </div>
+
+      <div class="familia-card dark">
+        <div class="f-head">
+          <div class="f-num">03</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Conversão</h4>
+        <div class="f-desc">Direta, com peso de oferta. Não decorativa. Leva à ação — clique,
+          agendamento, compra. CTA é o protagonista visual.</div>
+        <div class="f-meta">
+          <span>Borgonha + Terracota</span>
+          <span>Fraunces + Inter Semibold</span>
+        </div>
+      </div>
+
+      <div class="familia-card" style="background: var(--terracota); color: var(--marfim-claro);">
+        <div class="f-head" style="border-bottom-color: rgba(245,239,227,0.22);">
+          <div class="f-num" style="color: var(--marfim-claro);">04</div>
+          <div class="f-label" style="color: var(--marfim-claro); opacity: 0.9;">Família · expansão v2.1</div>
+        </div>
+        <h4 style="color: var(--marfim-claro);">Bastidor / <em style="color: var(--noir);">Founder</em></h4>
+        <div class="f-desc" style="color: rgba(245,239,227,0.9);">
+          A única família onde blocos inteiros em terracota são permitidos e encorajados.
+          É o espaço humano e energético da marca — bastidor real, narrativa founder, reflexão
+          pessoal, energia de palco. O terracota aqui é código visual de "isto é a Anndrea,
+          não a executiva". Founder-led growth depende desse registro.
+        </div>
+        <div class="f-meta" style="border-top-color: rgba(245,239,227,0.22); color: var(--marfim-claro);">
+          <span>Marfim OU Terracota</span>
+          <span>Fraunces Italic</span>
+          <span>Texto sempre em Marfim Claro</span>
+        </div>
+      </div>
+
+      <div class="familia-card">
+        <div class="f-head">
+          <div class="f-num">05</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Prova social</h4>
+        <div class="f-desc">Evidência. Números grandes, citações destacadas, logos quando aplicável.
+          Demonstra resultados, depoimentos, cases. Reduz risco percebido.</div>
+        <div class="f-meta">
+          <span>Marfim + Areia</span>
+          <span>Fraunces gigante (números)</span>
+        </div>
+      </div>
+
+      <div class="familia-card noir">
+        <div class="f-head">
+          <div class="f-num">06</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Institucional</h4>
+        <div class="f-desc">Máximo peso institucional. Capas de PDF, propostas comerciais, certificados,
+          materiais oficiais. Comunica com órgãos públicos, empresas, parceiros estratégicos, mídia.</div>
+        <div class="f-meta">
+          <span>Noir + Marfim + Bronze</span>
+          <span>Fraunces Bold + Mono</span>
+        </div>
+      </div>
+
+      <div class="familia-card noir" style="grid-column: span 2;">
+        <div class="f-head">
+          <div class="f-num">07</div>
+          <div class="f-label">Família</div>
+        </div>
+        <h4>Palestra & <em>evento</em></h4>
+        <div class="f-desc">Grande escala, alta legibilidade, registro de palco. Sustenta performance
+          ao vivo, cria peças de divulgação que vendem o palco antes do evento. TED meets Harvard
+          Business Review — slide é apoio, não roteiro.</div>
+        <div class="f-meta">
+          <span>Noir como fundo principal</span>
+          <span>Borgonha em quebras</span>
+          <span>Bronze opcional em capa</span>
+          <span>Fraunces 60–96pt</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 08 — APLICAÇÕES POR CANAL ========================================================= -->
+<section id="aplicacoes">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">08</div>
+        <div class="kicker">Aplicações reais por canal</div>
+      </div>
+      <div>
+        <h2 class="title">Do PDF institucional<br>à <em>landing page.</em></h2>
+        <p class="lede">
+          Os mesmos tokens atravessam todos os suportes. PDF comercial em estética white paper.
+          Site institucional em registro Substack. Apresentação de palco em código TED meets HBR.
+          O sistema é um — a configuração muda por canal.
+        </p>
+      </div>
+    </div>
+
+    <div class="apps">
+
+      <!-- PDF / Workbook (capa cerimonial) -->
+      <div class="app-workbook">
+        <div class="wb-top">
+          <span>Programa · 2026</span>
+          <span>IV · MMXXVI</span>
+        </div>
+        <div class="wb-mid">
+          <div class="wb-serial">04</div>
+          <div class="wb-kicker">Núcleo de Ascensão Executiva</div>
+          <div class="wb-title">
+            Eficiência
+            <em>com IA.</em>
+          </div>
+          <div class="wb-sub">Programa de aceleração para C-level feminino.</div>
+        </div>
+        <div class="wb-bot">
+          <span>Proposta para ___</span>
+          <span>Confidencial</span>
+        </div>
+      </div>
+
+      <!-- Landing institucional -->
+      <div class="app-landing">
+        <div class="browser-chrome"><span></span><span></span><span></span></div>
+        <div class="landing-inner">
+          <nav class="landing-nav">
+            <div class="nav-logo">Anndrea <em>Franco</em></div>
+            <ul>
+              <li>Sobre</li>
+              <li>Método</li>
+              <li>Programas</li>
+              <li>Contato</li>
+            </ul>
+          </nav>
+          <div class="landing-hero">
+            <h2>
+              Estratégia executiva.<br>
+              <em>IA aplicada.</em><br>
+              Liderança feminina C-level.
+            </h2>
+            <div class="landing-side">
+              <strong>Capacidade demonstrada</strong>
+              R$ 300M em receita, R$ 2B em valuation, 2.500 alunos.
+              Repertório executivo real traduzido em método.
+            </div>
+          </div>
+          <div class="landing-footer">
+            <span class="live">Mentoria · próxima turma novembro</span>
+            <span>Candidatura sob curadoria</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide de palestra -->
+      <div class="app-slide">
+        <div class="slide-num">02 / 24</div>
+        <div class="slide-content">
+          <div class="slide-kicker">Tese · 02 · IA executiva</div>
+          <h3>A primeira <em>operadora</em><br>antes de ser professora.</h3>
+        </div>
+        <div class="slide-aside">
+          "Não vendo inspiração — vendo capacidade demonstrada de produzir resultado em ambientes
+          de alta complexidade." — abertura do programa.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Diretrizes resumidas por canal -->
+    <div style="margin-top: var(--s-16); padding-top: var(--s-8); border-top: 1px solid var(--line);">
+      <div style="font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.22em; color: var(--borgonha); margin-bottom: var(--s-8);">
+        Configuração por canal · resumo executivo
+      </div>
+      <div class="grids-row" style="background: var(--line);">
+        <div class="grid-card">
+          <div class="gc-label">Site / Hero</div>
+          <div class="gc-name">Substack <em>premium</em></div>
+          <div class="gc-spec" style="margin-bottom:0">Retrato editorial à direita 50% · manchete Fraunces 64-80pt à esquerda · CTA terracota · fundo marfim · respiro vertical 96px+</div>
+        </div>
+        <div class="grid-card">
+          <div class="gc-label">Carrossel IG</div>
+          <div class="gc-name">Capa-padrão <em>editorial</em></div>
+          <div class="gc-spec" style="margin-bottom:0">8–10 slides · ritmo borgonha → marfim → noir → marfim → borgonha · 1 ideia por slide · CTA terracota no fechamento</div>
+        </div>
+        <div class="grid-card">
+          <div class="gc-label">PDF Comercial</div>
+          <div class="gc-name">White paper <em>McKinsey-tier</em></div>
+          <div class="gc-spec" style="margin-bottom:0">Capa noir/borgonha + bronze + Fraunces · miolo marfim · header/footer mono disciplinado · sem marca d'água · sem fundo decorativo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 09 — VOZ & CHECKLIST ========================================================= -->
+<section id="voz">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="meta">
+        <div class="serial">09</div>
+        <div class="kicker">Voz, tom & checklist</div>
+      </div>
+      <div>
+        <h2 class="title">Como a marca<br><em>fala.</em></h2>
+        <p class="lede">
+          Voz lúcida, pragmática e cortante sem ser seca. Pouca palavra, mas cada uma carrega peso.
+          Evita superlativos, promessas mágicas e romantização da exaustão. B2B sênior compra de
+          quem parece estar no mesmo nível dele — a marca conversa de igual para igual com diretoria.
+        </p>
+      </div>
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice">
+        <div class="v-num">i.</div>
+        <h5>Autoridade demonstrada</h5>
+        <div class="say">Repertório executivo real traduzido em método. R$ 300M em receita, 2.500 alunos formados.</div>
+        <div class="nope">Eu te ajudo a desbloquear seu potencial e brilhar como líder!!</div>
+      </div>
+      <div class="voice">
+        <div class="v-num">ii.</div>
+        <h5>Curadoria, não funil</h5>
+        <div class="say">Candidatura sob curadoria. Próxima turma em novembro.</div>
+        <div class="nope">Últimas vagas! Garanta a sua antes que acabe! 🔥</div>
+      </div>
+      <div class="voice">
+        <div class="v-num">iii.</div>
+        <h5>Tese, não dica</h5>
+        <div class="say">Veículos têm assinantes. Marcas pessoais têm seguidores.</div>
+        <div class="nope">3 hacks infalíveis para você dobrar o seu faturamento essa semana!</div>
+      </div>
+    </div>
+
+    <!-- Checklist de aprovação -->
+    <div class="checklist">
+      <div>
+        <div class="kicker">Checklist · validar antes de publicar</div>
+        <h3>Toda peça é<br>aprovada <em>contra</em><br>esta lista.</h3>
+      </div>
+      <ul>
+        <li>A mensagem central é imediatamente óbvia em 1 segundo?</li>
+        <li>Há uma hierarquia única clara, ou o olho fica perdido?</li>
+        <li>Borgonha aparece de forma reconhecível como cor de marca?</li>
+        <li>A tipografia é Fraunces (display) e/ou Inter (corpo) — sem outras?</li>
+        <li>Há respiro suficiente, ou a peça parece apertada?</li>
+        <li>Se há foto da Anndrea, ela está em registro editorial — não selfie?</li>
+        <li>Se há terracota em bloco inteiro, a peça é da Família 04 (Bastidor/Founder)? Se não, é erro.</li>
+        <li>A peça poderia estar em uma página de Harvard Business Review ou Monocle?</li>
+        <li>A peça poderia ter sido feita por uma centena de marcas pessoais femininas brasileiras?</li>
+        <li>O CTA, se há, está em terracota e visível?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= FOOTER ========================================================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-mark">
+        Editorial<br>
+        <em>Executivo.</em>
+      </div>
+      <div class="footer-meta">
+        <div>Fim da recomendação estratégica</div>
+        <div>Brand System · v 2.1</div>
+        <div>Anndrea Franco · Marca pessoal</div>
+        <div>Diretoria criativa · MMXXVI</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
